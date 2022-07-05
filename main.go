@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-type output struct {
+type FeedOutput struct {
 	Title string
 	Href  string
 }
@@ -83,7 +83,7 @@ func GetFeeds(token string, format formatType) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	var o []*output
+	var o []*FeedOutput
 	for _, v := range collections {
 		var data feedly.GetStreamIDsReponse
 		_, err := client.R().SetResult(&data).Get("/v3/streams/ids?streamId=" + v.Id)
@@ -100,7 +100,7 @@ func GetFeeds(token string, format formatType) (string, error) {
 				continue
 			}
 			for _, y := range x.Alternate {
-				o = append(o, &output{
+				o = append(o, &FeedOutput{
 					Title: x.Title,
 					Href:  y.Href,
 				})
